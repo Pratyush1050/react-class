@@ -9,27 +9,17 @@ import "./login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+
 const Login = () => {
 	const [identifier, setIdentifier] = useState();
 	const [password, setPassword] = useState();
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-
-		await axios
-			.post("/api/auth/local", {
-				identifier,
-				password,
-			})
-			.then((response) => {
-				console.log(response);
-				navigate("/");
-			})
-			.catch((error) => {
-				console.log(error);
-				alert(error.message);
-			});
+		await login(identifier, password);
 	};
 	return (
 		<div className="container">
